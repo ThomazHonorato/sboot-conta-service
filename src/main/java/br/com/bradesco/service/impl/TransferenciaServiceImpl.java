@@ -1,15 +1,20 @@
 package br.com.bradesco.service.impl;
 
+import br.com.bradesco.domain.entity.Conta;
 import br.com.bradesco.domain.entity.Transferencia;
 import br.com.bradesco.domain.mappers.TransferenciaMapper;
 import br.com.bradesco.domain.payload.request.TransferenciaRequest;
 import br.com.bradesco.domain.payload.response.TransferenciaResponse;
+import br.com.bradesco.exceptions.ContaNotFoundException;
+import br.com.bradesco.exceptions.NotEnoughSaldoException;
 import br.com.bradesco.exceptions.TransferenciaNotFoundException;
+import br.com.bradesco.repository.ContaRepository;
 import br.com.bradesco.repository.TransferenciaRepository;
 import br.com.bradesco.service.TransferenciaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,9 +24,21 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 
     private final TransferenciaRepository transferenciaRepository;
     private final TransferenciaMapper transferenciaMapper;
+    private final ContaRepository contaRepository;
 
     public TransferenciaResponse createTransferencia(final TransferenciaRequest transferenciaRequest) {
-        return transferenciaMapper.toResponse(transferenciaRepository.save(transferenciaMapper.toEntity(transferenciaRequest)));
+
+        Conta contaOrigem = getConta(transferenciaRequest.getContaOrigem());
+        Conta contaDestino = getConta(transferenciaRequest.getContaDestino());
+
+        transferenciaRequest.setContaDestino(contaDestino.getIdConta());
+        transferenciaRequest.setContaOrigem(contaOrigem.getIdConta());
+
+        if (getSaldo(transferenciaRequest.getContaOrigem()).compareTo(transferenciaRequest.getValor()) < 0) {
+            throw new NotEnoughSaldoException();
+        } else {
+            return transferenciaMapper.toResponse(transferenciaRepository.save(transferenciaMapper.toEntity(transferenciaRequest)));
+        }
     }
 
     public List<TransferenciaResponse> getAllTransferencia() {
@@ -36,6 +53,19 @@ public class TransferenciaServiceImpl implements TransferenciaService {
 
     private Transferencia getTransferencia(UUID idTransferencia) {
         return transferenciaRepository.findById(idTransferencia).orElseThrow(TransferenciaNotFoundException::new);
+    }
+
+    private Conta getConta(UUID idConta) {
+        return contaRepository.findById(idConta).orElseThrow(ContaNotFoundException::new);
+    }
+
+    private BigDecimal getSaldo(UUID idConta) {
+        BigDecimal saldo = getConta(idConta).getSaldo();
+        if (saldo == null) {
+            throw new NotEnoughSaldoException();
+        } else {
+            return saldo;
+        }
     }
 }
 

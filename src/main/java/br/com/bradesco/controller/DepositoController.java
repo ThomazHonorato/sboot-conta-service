@@ -18,25 +18,25 @@ import java.util.UUID;
 public class DepositoController {
 
     private final DepositoServiceImpl depositoServiceImpl;
+
     @PostMapping("/depositar")
-    public ResponseEntity<DepositoResponse> createDeposito(@RequestBody @Valid DepositoRequest depositoRequest){
-        //todo verificar se a conta origem tem saldo suficiente.
-        //todo verificar se a conta destino existe.
+    public ResponseEntity<DepositoResponse> createDeposito(@RequestBody @Valid DepositoRequest depositoRequest) {
+
         return ResponseEntity.ok(depositoServiceImpl.createDeposito(depositoRequest));
     }
 
     @GetMapping
-    public ResponseEntity<List<DepositoResponse>> getAllDeposito(){
+    public ResponseEntity<List<DepositoResponse>> getAllDeposito() {
         List<DepositoResponse> depositos = depositoServiceImpl.getAllDeposito();
         return ResponseEntity.ok(depositos);
     }
 
     @GetMapping("/{idDeposito}")
-    public ResponseEntity<DepositoResponse> getDepositoById(@PathVariable UUID idDeposito){
+    public ResponseEntity<DepositoResponse> getDepositoById(@PathVariable UUID idDeposito) {
         DepositoResponse depositoResponse = depositoServiceImpl.getDepositoById(idDeposito);
-        if(depositoResponse != null){
+        if (depositoResponse != null) {
             return ResponseEntity.ok(depositoResponse);
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 

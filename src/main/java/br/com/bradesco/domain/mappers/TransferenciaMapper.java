@@ -9,10 +9,12 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface TransferenciaMapper {
 
+    @Mapping(target = "contaOrigem", ignore = true)
+    @Mapping(target = "contaDestino", ignore = true)
+    //@Mapping(target = "idTransferencia", ignore = true)
     Transferencia toEntity(TransferenciaRequest transferenciaRequest);
 
-    @Mapping(target = "idTransferencia", ignore = true)
-    void toUpdateEntity(final TransferenciaRequest transferenciaRequest, final Transferencia transferencia);
-
+    @Mapping(source = "transferencia.contaOrigem.idConta", target = "contaOrigem")
+    @Mapping(source = "transferencia.contaDestino.idConta", target = "contaDestino")
     TransferenciaResponse toResponse(final Transferencia transferencia);
 }

@@ -12,8 +12,8 @@ public interface SaqueMapper {
 
     Saque toEntity(SaqueRequest saqueRequest);
 
-    @Mapping(target = "idSaque", ignore = true)
-    void toUpdateEntity(final SaqueRequest saqueRequest, @MappingTarget final Saque saque);
+    /*@Mapping(target = "idSaque", ignore = true)
+    void toUpdateEntity(final SaqueRequest saqueRequest, @MappingTarget final Saque saque);*/
 
     SaqueResponse toResponse(final Saque saque);
 }

@@ -10,10 +10,12 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface ContaMapper {
 
+    @Mapping(target = "idConta", ignore = true)
+    @Mapping(target = "saldo", ignore = true)
     Conta toEntity(ContaRequest contaRequest);
 
-    @Mapping(target = "idConta", ignore = true)
-    void toUpdateEntity(final ContaRequest contaRequest, @MappingTarget final Conta conta);
+    /*@Mapping(target = "idConta", ignore = true)
+    void toUpdateEntity(final ContaRequest contaRequest, @MappingTarget final Conta conta);*/
 
     ContaResponse toResponse(final Conta conta);
 }

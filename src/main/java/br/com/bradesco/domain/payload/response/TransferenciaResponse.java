@@ -17,6 +17,7 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class TransferenciaResponse {
 
+    private UUID idTransferencia;
     private BigDecimal valor;
     private LocalDateTime dataTransferencia;
     private UUID contaOrigem;
