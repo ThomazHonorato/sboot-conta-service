@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @RequiredArgsConstructor
 public class GlobalHandlerException {
 
-
     public static final String CONTA_NAO_ENCONTRADA = "CONTA NAO ENCONTRADA";
-    public static final String SALDO_INSUFICIENTE = "SALDO INSUFICIENTE";
-    public static final String FALHA_AO_REALIZAR_TRANSFERENCIA = "FALHA AO REALIZAR TRANSFERENCIA";
+    public static final String DEPOSITO_NAO_ENCONTRADO = "DEPOSITO NAO ENCONTRADO";
     public static final String FALHA_AO_REALIZAR_DEPOSITO = "FALHA_AO_REALIZAR_DEPOSITO";
+    public static final String FALHA_AO_REALIZAR_TRANSFERENCIA = "FALHA AO REALIZAR TRANSFERENCIA";
+    public static final String SALDO_INSUFICIENTE = "SALDO INSUFICIENTE";
+    public static final String SAQUE_NAO_ENCONTRADO = "SAQUE NAO ENCONTRADO";
+    public static final String TRANSFERENCIA_NAO_ENCONTRADA = "TRANSFERENCIA NAO ENCONTRADA";
+    public static final String USUARIO_NAO_ENCONTRADO = "USUARIO NAO ENCONTRADO";
 
     @ExceptionHandler(ContaNotFoundException.class)
     public ResponseEntity<GlobalMessageExceptionHandlerDTO> handleContaNotFoundException(ContaNotFoundException ex) {
@@ -36,9 +39,9 @@ public class GlobalHandlerException {
                 HttpStatus.NOT_FOUND
         );
     }
-    
+
     @ExceptionHandler(FalhaDepositoException.class)
-    public ResponseEntity<GlobalMessageExceptionHandlerDTO> handleFalhaDepositoException(FalhaDepositoException ex){
+    public ResponseEntity<GlobalMessageExceptionHandlerDTO> handleFalhaDepositoException(FalhaDepositoException ex) {
         log.error(ex.getMessage(), ex);
         return buildGlobalMessageExceptionHandlerDTO(
                 FALHA_AO_REALIZAR_DEPOSITO,
@@ -47,10 +50,46 @@ public class GlobalHandlerException {
     }
 
     @ExceptionHandler(FalhaTransferenciaException.class)
-    public ResponseEntity<GlobalMessageExceptionHandlerDTO> handleFalhaTransferenciaException(FalhaTransferenciaException ex){
+    public ResponseEntity<GlobalMessageExceptionHandlerDTO> handleFalhaTransferenciaException(FalhaTransferenciaException ex) {
         log.error(ex.getMessage(), ex);
         return buildGlobalMessageExceptionHandlerDTO(
                 FALHA_AO_REALIZAR_TRANSFERENCIA,
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(UsuarioNotFoundException.class)
+    public ResponseEntity<GlobalMessageExceptionHandlerDTO> handleUsuarioNotFoundException(UsuarioNotFoundException ex) {
+        log.error(ex.getMessage(), ex);
+        return buildGlobalMessageExceptionHandlerDTO(
+                USUARIO_NAO_ENCONTRADO,
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(TransferenciaNotFoundException.class)
+    public ResponseEntity<GlobalMessageExceptionHandlerDTO> handleTransferenciaNotFoundException(TransferenciaNotFoundException ex) {
+        log.error(ex.getMessage(), ex);
+        return buildGlobalMessageExceptionHandlerDTO(
+                TRANSFERENCIA_NAO_ENCONTRADA,
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(SaqueNotFoundException.class)
+    public ResponseEntity<GlobalMessageExceptionHandlerDTO> handleSaqueNotFoundException(SaqueNotFoundException ex) {
+        log.error(ex.getMessage(), ex);
+        return buildGlobalMessageExceptionHandlerDTO(
+                SAQUE_NAO_ENCONTRADO,
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(DepositoNotFoundException.class)
+    public ResponseEntity<GlobalMessageExceptionHandlerDTO> handleDepositoNotFoundException(DepositoNotFoundException ex) {
+        log.error(ex.getMessage(), ex);
+        return buildGlobalMessageExceptionHandlerDTO(
+                DEPOSITO_NAO_ENCONTRADO,
                 HttpStatus.BAD_REQUEST
         );
     }

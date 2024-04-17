@@ -104,11 +104,9 @@ t
 Dsrc/main/java/br/com/bradesco/exceptions/FalhaDepositoException.java,e\e\ee08c56cf769994d9fc306a8cc4de98db75b8e06
 q
 Asrc/main/java/br/com/bradesco/exceptions/FalhaSaqueException.java,e\7\e7549cc5bb19c2512c7661b1c700490641ec3da7
-j
-:src/main/java/br/com/bradesco/Client/UserServiceFeign.java,c\4\c4eb86021bb6b79efd3c5eb655a50e3390cfc3a1
-4
-.env,3\c\3c84dcdc6bbe3d7817c49dcdc327b926fea1808a
-s
-Csrc/main/java/br/com/bradesco/Client/impl/UserServiceFeignImpl.java,9\4\9460bdd1a01d4a95422cdaa19b718488c741e512
 v
 Fsrc/main/java/br/com/bradesco/exceptions/UsuarioNotFoundException.java,c\2\c218a7d13954441dadceffe99e6b7bb1823ba05b
+g
+7src/main/java/br/com/bradesco/Client/UsuarioClient.java,5\c\5c3e4e15ebec5716507000fc01ba1e7f603d34d1
+z
+Jsrc/main/java/br/com/bradesco/domain/payload/response/UsuarioResponse.java,7\e\7e19393aa0914443f705925740989c7b85393eec

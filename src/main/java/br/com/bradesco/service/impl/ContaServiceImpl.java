@@ -1,12 +1,13 @@
 package br.com.bradesco.service.impl;
 
-import br.com.bradesco.Client.UserServiceFeign;
-import br.com.bradesco.Client.impl.UserServiceFeignImpl;
+import br.com.bradesco.Client.UsuarioClient;
 import br.com.bradesco.domain.entity.Conta;
 import br.com.bradesco.domain.mappers.ContaMapper;
 import br.com.bradesco.domain.payload.request.ContaRequest;
 import br.com.bradesco.domain.payload.response.ContaResponse;
+import br.com.bradesco.domain.payload.response.UsuarioResponse;
 import br.com.bradesco.exceptions.ContaNotFoundException;
+import br.com.bradesco.exceptions.UsuarioNotFoundException;
 import br.com.bradesco.repository.ContaRepository;
 import br.com.bradesco.service.ContaService;
 import lombok.RequiredArgsConstructor;
@@ -22,14 +23,22 @@ public class ContaServiceImpl implements ContaService {
 
     private final ContaRepository contaRepository;
     private final ContaMapper contaMapper;
-    private final UserServiceFeignImpl userServiceFeignImpl;
+    private final UsuarioClient usuarioClient;
+
 
     public ContaResponse createConta(final ContaRequest contaRequest) {
-        contaRequest.setIdUsuario(userServiceFeignImpl.getUsuarioId(contaRequest.getIdUsuario()));
-        return contaMapper.toResponse(contaRepository.save(contaMapper.toEntity(contaRequest)));
+
+        try{
+            UsuarioResponse usuarioResponse = usuarioClient.getUsuarioById(contaRequest.getIdUsuario());
+            contaRequest.setIdUsuario(usuarioResponse.getIdUsuario());
+            return contaMapper.toResponse(contaRepository.save(contaMapper.toEntity(contaRequest)));
+        }catch(Exception ex){
+            throw new UsuarioNotFoundException();
+        }
+
     }
 
-    public ContaResponse updateSaldoConta(final UUID idConta, final BigDecimal saldo){
+    public ContaResponse updateSaldoConta(final UUID idConta, final BigDecimal saldo) {
         Conta conta = getConta(idConta);
         conta.setSaldo(saldo);
         contaMapper.toUpdateEntity(null, conta, saldo);
