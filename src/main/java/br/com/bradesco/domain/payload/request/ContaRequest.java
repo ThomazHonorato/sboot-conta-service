@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -22,4 +23,6 @@ public class ContaRequest {
     private String banco;
 
     private BigDecimal saldo = BigDecimal.ZERO;
+
+    private UUID idUsuario;
 }

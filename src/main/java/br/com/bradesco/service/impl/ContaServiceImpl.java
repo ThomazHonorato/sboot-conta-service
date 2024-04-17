@@ -1,5 +1,7 @@
 package br.com.bradesco.service.impl;
 
+import br.com.bradesco.Client.UserServiceFeign;
+import br.com.bradesco.Client.impl.UserServiceFeignImpl;
 import br.com.bradesco.domain.entity.Conta;
 import br.com.bradesco.domain.mappers.ContaMapper;
 import br.com.bradesco.domain.payload.request.ContaRequest;
@@ -20,9 +22,10 @@ public class ContaServiceImpl implements ContaService {
 
     private final ContaRepository contaRepository;
     private final ContaMapper contaMapper;
+    private final UserServiceFeignImpl userServiceFeignImpl;
 
     public ContaResponse createConta(final ContaRequest contaRequest) {
-
+        contaRequest.setIdUsuario(userServiceFeignImpl.getUsuarioId(contaRequest.getIdUsuario()));
         return contaMapper.toResponse(contaRepository.save(contaMapper.toEntity(contaRequest)));
     }
 

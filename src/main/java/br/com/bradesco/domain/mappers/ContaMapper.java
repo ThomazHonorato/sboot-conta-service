@@ -14,10 +14,12 @@ public interface ContaMapper {
 
     @Mapping(target = "idConta", ignore = true)
     //@Mapping(target = "saldo", ignore = true)
+    @Mapping(target = "idUsuario", source = "idUsuario")
     Conta toEntity(ContaRequest contaRequest);
 
     @Mapping(target = "idConta", ignore = true)
     void toUpdateEntity(final ContaRequest contaRequest, @MappingTarget final Conta conta, BigDecimal saldo);
 
+    @Mapping(target = "idUsuario", source = "idUsuario")
     ContaResponse toResponse(final Conta conta);
 }

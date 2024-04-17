@@ -21,5 +21,6 @@ public class ContaResponse {
     private String agencia;
     private String banco;
     private BigDecimal saldo;
+    private UUID idUsuario;
 
 }
