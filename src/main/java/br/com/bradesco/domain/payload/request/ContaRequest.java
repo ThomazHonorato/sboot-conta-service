@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,4 +20,6 @@ public class ContaRequest {
 
     @NotBlank(message = "Banco não pode estar vazio")
     private String banco;
+
+    private BigDecimal saldo = BigDecimal.ZERO;
 }

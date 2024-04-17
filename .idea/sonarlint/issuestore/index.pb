@@ -98,3 +98,9 @@ t
 Dsrc/test/java/br/com/bradesco/SbootContaServiceApplicationTests.java,5\1\51e4d9b20701bc704ab4d458912168fc521bff69
 o
 ?src/main/java/br/com/bradesco/SbootContaServiceApplication.java,1\0\105c74091ce8ae9e290206abf76b5b3a537e8248
+y
+Isrc/main/java/br/com/bradesco/exceptions/FalhaTransferenciaException.java,0\c\0ceb6fd3e21412168c4c8024153beec1c06c4330
+t
+Dsrc/main/java/br/com/bradesco/exceptions/FalhaDepositoException.java,e\e\ee08c56cf769994d9fc306a8cc4de98db75b8e06
+q
+Asrc/main/java/br/com/bradesco/exceptions/FalhaSaqueException.java,e\7\e7549cc5bb19c2512c7661b1c700490641ec3da7

@@ -7,15 +7,17 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.math.BigDecimal;
+
 @Mapper(componentModel = "spring")
 public interface ContaMapper {
 
     @Mapping(target = "idConta", ignore = true)
-    @Mapping(target = "saldo", ignore = true)
+    //@Mapping(target = "saldo", ignore = true)
     Conta toEntity(ContaRequest contaRequest);
 
-    /*@Mapping(target = "idConta", ignore = true)
-    void toUpdateEntity(final ContaRequest contaRequest, @MappingTarget final Conta conta);*/
+    @Mapping(target = "idConta", ignore = true)
+    void toUpdateEntity(final ContaRequest contaRequest, @MappingTarget final Conta conta, BigDecimal saldo);
 
     ContaResponse toResponse(final Conta conta);
 }

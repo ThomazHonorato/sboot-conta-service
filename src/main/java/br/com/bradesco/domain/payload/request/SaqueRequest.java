@@ -21,4 +21,6 @@ public class SaqueRequest {
     @NotNull(message = "Data não pode estar vazio")
     private LocalDateTime dataSaque;
 
+    private UUID conta;
+
 }

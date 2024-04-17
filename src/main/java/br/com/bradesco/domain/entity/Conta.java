@@ -24,6 +24,8 @@ public class  Conta implements Serializable {
     private String numero;
     private String agencia;
     private String banco;
-    private BigDecimal saldo;
+
+    @Column(nullable = false, columnDefinition = "0")
+    private BigDecimal saldo = BigDecimal.ZERO;
     //aqui vai idUsuario.
 }

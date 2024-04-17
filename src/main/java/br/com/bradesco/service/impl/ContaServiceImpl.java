@@ -10,6 +10,7 @@ import br.com.bradesco.service.ContaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,15 @@ public class ContaServiceImpl implements ContaService {
     private final ContaMapper contaMapper;
 
     public ContaResponse createConta(final ContaRequest contaRequest) {
+
         return contaMapper.toResponse(contaRepository.save(contaMapper.toEntity(contaRequest)));
+    }
+
+    public ContaResponse updateSaldoConta(final UUID idConta, final BigDecimal saldo){
+        Conta conta = getConta(idConta);
+        conta.setSaldo(saldo);
+        contaMapper.toUpdateEntity(null, conta, saldo);
+        return contaMapper.toResponse(contaRepository.save(conta));
     }
 
     public List<ContaResponse> getAllConta() {

@@ -16,6 +16,8 @@ public class GlobalHandlerException {
 
     public static final String CONTA_NAO_ENCONTRADA = "CONTA NAO ENCONTRADA";
     public static final String SALDO_INSUFICIENTE = "SALDO INSUFICIENTE";
+    public static final String FALHA_AO_REALIZAR_TRANSFERENCIA = "FALHA AO REALIZAR TRANSFERENCIA";
+    public static final String FALHA_AO_REALIZAR_DEPOSITO = "FALHA_AO_REALIZAR_DEPOSITO";
 
     @ExceptionHandler(ContaNotFoundException.class)
     public ResponseEntity<GlobalMessageExceptionHandlerDTO> handleContaNotFoundException(ContaNotFoundException ex) {
@@ -35,6 +37,23 @@ public class GlobalHandlerException {
         );
     }
     
+    @ExceptionHandler(FalhaDepositoException.class)
+    public ResponseEntity<GlobalMessageExceptionHandlerDTO> handleFalhaDepositoException(FalhaDepositoException ex){
+        log.error(ex.getMessage(), ex);
+        return buildGlobalMessageExceptionHandlerDTO(
+                FALHA_AO_REALIZAR_DEPOSITO,
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(FalhaTransferenciaException.class)
+    public ResponseEntity<GlobalMessageExceptionHandlerDTO> handleFalhaTransferenciaException(FalhaTransferenciaException ex){
+        log.error(ex.getMessage(), ex);
+        return buildGlobalMessageExceptionHandlerDTO(
+                FALHA_AO_REALIZAR_TRANSFERENCIA,
+                HttpStatus.BAD_REQUEST
+        );
+    }
 
     private ResponseEntity<GlobalMessageExceptionHandlerDTO> buildGlobalMessageExceptionHandlerDTO(String message, HttpStatus status) {
         return ResponseEntity.status(status)

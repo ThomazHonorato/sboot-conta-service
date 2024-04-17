@@ -5,9 +5,7 @@ import br.com.bradesco.domain.entity.Deposito;
 import br.com.bradesco.domain.mappers.DepositoMapper;
 import br.com.bradesco.domain.payload.request.DepositoRequest;
 import br.com.bradesco.domain.payload.response.DepositoResponse;
-import br.com.bradesco.exceptions.ContaNotFoundException;
-import br.com.bradesco.exceptions.DepositoNotFoundException;
-import br.com.bradesco.exceptions.NotEnoughSaldoException;
+import br.com.bradesco.exceptions.*;
 import br.com.bradesco.repository.ContaRepository;
 import br.com.bradesco.repository.DepositoRepository;
 import br.com.bradesco.service.DepositoService;
@@ -25,19 +23,31 @@ public class DepositoServiceImpl implements DepositoService {
     private final DepositoRepository depositoRepository;
     private final DepositoMapper depositoMapper;
     private final ContaRepository contaRepository;
+    private final ContaServiceImpl contaServiceImpl;
 
     public DepositoResponse createDeposito(final DepositoRequest depositoRequest) {
 
-        Conta contaOrigem = getConta(depositoRequest.getContaOrigem());
-        Conta contaDestino = getConta(depositoRequest.getContaDestino());
+        try{
+            Conta contaOrigem = getConta(depositoRequest.getContaOrigem());
+            Conta contaDestino = getConta(depositoRequest.getContaDestino());
 
-        depositoRequest.setContaDestino(contaDestino.getIdConta());
-        depositoRequest.setContaOrigem(contaOrigem.getIdConta());
+            depositoRequest.setContaDestino(contaDestino.getIdConta());
+            depositoRequest.setContaOrigem(contaOrigem.getIdConta());
 
-        if (getSaldo(depositoRequest.getContaOrigem()).compareTo(depositoRequest.getValor()) < 0) {
-            throw new NotEnoughSaldoException();
-        } else {
-            return depositoMapper.toResponse(depositoRepository.save(depositoMapper.toEntity(depositoRequest)));
+            if (getSaldo(depositoRequest.getContaOrigem()).compareTo(depositoRequest.getValor()) < 0) {
+                throw new NotEnoughSaldoException();
+            } else {
+                BigDecimal saldoS = getSaldo(depositoRequest.getContaOrigem());
+                BigDecimal saldoE = getSaldo(depositoRequest.getContaDestino());
+                BigDecimal valor = depositoRequest.getValor();
+                BigDecimal saldoSaida = saldoS.subtract(valor);
+                BigDecimal saldoEntrada = saldoE.add(valor);
+                contaServiceImpl.updateSaldoConta(depositoRequest.getContaDestino(), saldoEntrada);
+                contaServiceImpl.updateSaldoConta(depositoRequest.getContaOrigem(), saldoSaida);
+                return depositoMapper.toResponse(depositoRepository.save(depositoMapper.toEntity(depositoRequest)));
+            }
+        }catch (FalhaDepositoException e){
+            throw new FalhaDepositoException();
         }
 
     }
