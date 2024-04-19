@@ -25,7 +25,7 @@ public class Saque implements Serializable {
     private BigDecimal valor;
     private LocalDateTime dataSaque;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "idConta")
     private Conta conta;
 }

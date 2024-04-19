@@ -29,7 +29,7 @@ public class TransferenciaServiceImpl implements TransferenciaService {
     private final ContaRepository contaRepository;
     private final ContaServiceImpl contaServiceImpl;
 
-    @Transactional
+    //@Transactional
     public TransferenciaResponse createTransferencia(final TransferenciaRequest transferenciaRequest) {
 
         try{
